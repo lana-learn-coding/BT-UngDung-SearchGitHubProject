@@ -1,34 +1,41 @@
 import '../scss/styles.scss';
+import "isomorphic-fetch";
+import * as $ from 'jquery';
+
+let query = "angular";
+
 interface ISingleRepo {
-  name: string;
+    name: string
 }
+
 interface IRepos {
-  items: Array<ISingleRepo>;
-}
-async function fetchRepo(): Promise<Array<ISingleRepo>> {
-  let res: Response | IRepos = await fetch('https://api.github.com/search/repositories?q=angular');
-  res = await res.json() as IRepos;
-  return res.items;
+    items: ISingleRepo[]
 }
 
-function createItem(text: string): HTMLLIElement {
-  const item = document.createElement('li') as HTMLLIElement;
-  item.textContent = text;
-  return item;
+async function print(query: string | number | string[]): Promise<string> {
+    let out: string = "";
+    await fetch('https://api.github.com/search/repositories?q=' + query)
+        .then((response: any) => response.json() as IRepos)
+        .then((iRepos: any) => iRepos.items)
+        .then((items: any) => {
+            for (let item of items) {
+                out += "<li>" + item.name + "<li>";
+            }
+        });
+    return out;
 }
 
-const container = document.querySelector('.app .list');
+print("angular").then((out: any) => {
+    document.getElementById("ul").innerHTML = out;
+});
 
-async function main() {
-  // step 1: fetch repo
-  const res = await fetchRepo();
-  // step 2: lặp qua mảng các item trả về
-  // step 3: call hàm createItem sau đó truyền vào name của từng item ở mỗi vòng lặp
-  // step 4: call hàm container.appendChild(item mà hàm createItem trả về)
-  res.forEach((item: any) => {
-    const li = createItem(item.name);
-    container.appendChild(li);
-  });
-}
+$("#search").keydown( function (evt: any) {
+    console.log($(this).val());
+    if (evt.key === "Enter") {
+        let query = $(this).val();
+        print(query).then((out: any) => {
+            document.getElementById("ul").innerHTML = out;
+        });
+    }
+});
 
-main();

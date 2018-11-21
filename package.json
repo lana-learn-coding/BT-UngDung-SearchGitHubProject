@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "main": "src/index.ts",
   "scripts": {
+    "stop": "",
     "start": "npm run server:dev",
     "server": "npm run server:dev",
     "server:dev": "webpack-dev-server --mode development --config ./webpack.config.js --hot --inline --progress --watch --open",
@@ -15,6 +16,7 @@
   },
   "license": "MIT",
   "devDependencies": {
+    "@types/jquery": "^3.3.22",
     "@types/lodash": "^4.14.70",
     "@types/node": "^10.9.2",
     "awesome-typescript-loader": "^5.2.0",
@@ -38,6 +40,10 @@
     "webpack-dev-server": "^3.1.5"
   },
   "dependencies": {
-    "lodash": "^4.17.4"
+    "es6-promise": "^4.2.5",
+    "isomorphic-fetch": "^2.2.1",
+    "jquery": "latest",
+    "lodash": "^4.17.4",
+    "node-fetch": "^2.3.0"
   }
 }
