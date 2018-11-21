@@ -25,10 +25,6 @@ async function print(query: string | number | string[]): Promise<string> {
     return out;
 }
 
-print("angular").then((out: any) => {
-    document.getElementById("ul").innerHTML = out;
-});
-
 $("#search").keydown( function (evt: any) {
     console.log($(this).val());
     if (evt.key === "Enter") {
